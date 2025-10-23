@@ -1,0 +1,94 @@
+@import url("https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Karla", sans-serif;
+}
+
+body {
+  color: hsl(187, 24%, 22%);
+  background-color: hsl(148, 38%, 91%);
+  padding: 0.75rem;
+}
+
+#form {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: hsl(0, 0%, 100%);
+}
+
+span {
+  color: hsl(169, 82%, 27%);
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+label,
+#query-type {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  display: block;
+  margin-top: 2rem;
+}
+
+.radio {
+  border: 1px solid hsl(187, 24%, 22%);
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin: 1rem 0 1rem 0;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.5rem;
+  width: 100%;
+}
+
+input[type="radio"] {
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+input:focus {
+  outline: none;
+  border-color: hsl(169, 82%, 27%);
+  box-shadow: 0 0 5px hsl(169, 82%, 27%);
+}
+
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: none;
+}
+
+#consent {
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+#submit {
+  background-color: hsl(169, 82%, 27%);
+  color: hsl(0, 0%, 100%);
+  border: none;
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+#submit:hover {
+  background-color: #0056b3;
+}
