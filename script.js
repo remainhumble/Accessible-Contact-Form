@@ -9,36 +9,48 @@ const radios = document.querySelectorAll('input[name="query-type"]');
 // helper: find the <p class="error-message"> that belongs to an element
 const findErrorDisplay = (element) => {
   if (!element) return null;
-  // common pattern in your HTML: <input> followed by <p class="error-message">
+
+  // common pattern: <input> followed by <p class="error-message">
   if (
     element.nextElementSibling &&
+    element.nextElementSibling.classList &&
     element.nextElementSibling.classList.contains("error-message")
   ) {
     return element.nextElementSibling;
   }
+
   // sometimes the <p> is before the element
   if (
     element.previousElementSibling &&
+    element.previousElementSibling.classList &&
     element.previousElementSibling.classList.contains("error-message")
   ) {
     return element.previousElementSibling;
   }
-  // radio group has the <p> right after the #query block
+
+  // radio group: only return the p after #query when the element is inside (or is) #query
   const queryBlock = document.getElementById("query");
   if (
     queryBlock &&
-    queryBlock.nextElementSibling &&
-    queryBlock.nextElementSibling.classList.contains("error-message")
+    (element === queryBlock || (element.closest && element.closest("#query")))
   ) {
-    return queryBlock.nextElementSibling;
+    const p = queryBlock.nextElementSibling;
+    if (p && p.classList && p.classList.contains("error-message")) return p;
   }
-  // consent has its own container with a p inside
+
+  // consent has its own container with a p inside — prefer that when element is in/related to consent
   const consentContainer = document.getElementById("consent-container");
-  if (consentContainer) {
+  if (
+    consentContainer &&
+    (element === consentContainer ||
+      (element.closest && element.closest("#consent-container")) ||
+      element.id === "consent")
+  ) {
     const p = consentContainer.querySelector(".error-message");
     if (p) return p;
   }
-  // fallback: first .error-message
+
+  // fallback: first .error-message in the document
   return document.querySelector(".error-message");
 };
 
@@ -97,14 +109,14 @@ const validateInputs = () => {
   let isValid = true;
 
   if (!firstNameValue) {
-    setError(firstName, "First name is required");
+    setError(firstName, "This field is required");
     isValid = false;
   } else {
     setSuccess(firstName);
   }
 
   if (!lastNameValue) {
-    setError(lastName, "Last name is required");
+    setError(lastName, "This field is required");
     isValid = false;
   } else {
     setSuccess(lastName);
@@ -114,7 +126,7 @@ const validateInputs = () => {
     setError(email, "Email is required");
     isValid = false;
   } else if (!isValidEmail(emailValue)) {
-    setError(email, "Email is not valid");
+    setError(email, "Please enter a valid email address");
     isValid = false;
   } else {
     setSuccess(email);
@@ -132,7 +144,7 @@ const validateInputs = () => {
 
   if (!messageValue) {
     if (textarea) {
-      setError(textarea, "Message is required");
+      setError(textarea, "This field is required");
       isValid = false;
     }
   } else if (textarea) {
@@ -140,7 +152,7 @@ const validateInputs = () => {
   }
 
   if (!isConsentChecked) {
-    setError(consent, "You must give consent");
+    setError(consent, "To submit this form, please consent to being contacted");
     isValid = false;
   } else {
     setSuccess(consent);
