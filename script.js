@@ -164,8 +164,22 @@ const validateInputs = () => {
 const handleSubmit = (event) => {
   event.preventDefault();
   clearError();
+  // guard: ensure form exists
+  if (!form) return;
+
+  const submitButton = form.querySelector("input[type='submit']");
+
+  // disable submit to prevent double submits
+  if (submitButton) {
+    submitButton.disabled = true;
+    
+  }
+
   if (validateInputs()) {
     form.submit();
+  } else {
+    // re-enable if validation failed
+    if (submitButton) submitButton.disabled = false;
   }
 };
 
@@ -175,6 +189,11 @@ if (checkmark && consent) {
   checkmark.setAttribute("tabindex", "0");
   checkmark.setAttribute("role", "checkbox");
   checkmark.setAttribute("aria-checked", consent.checked ? "true" : "false");
+
+  // ensure clickable via mouse and keyboard even if CSS interferes
+  checkmark.style.pointerEvents = "auto";
+  checkmark.style.cursor = "pointer";
+  consent.style.cursor = "pointer";
 
   const syncCheckmarkState = () => {
     checkmark.setAttribute("aria-checked", consent.checked ? "true" : "false");
@@ -202,7 +221,12 @@ if (checkmark && consent) {
 
   // keyboard: Enter or Space toggles the checkbox
   checkmark.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") {
+    if (
+      e.key === "Enter" ||
+      e.key === " " ||
+      e.code === "Space" ||
+      e.key === "Spacebar"
+    ) {
       e.preventDefault();
       toggleConsent();
     }
@@ -212,6 +236,26 @@ if (checkmark && consent) {
   checkmark.addEventListener("click", (e) => {
     toggleConsent();
   });
+
+   // Also make the label or consent container toggle the checkbox when clicked
+  const consentLabel = document.querySelector(`label[for="${consent.id}"]`);
+  const consentContainer = document.getElementById("consent-container") || consent.parentElement;
+  if (consentLabel) {
+    consentLabel.style.cursor = "pointer";
+    consentLabel.addEventListener("click", (e) => {
+      // if the native checkbox itself was clicked let the browser handle it
+      if (e.target === consent) return;
+      toggleConsent();
+    });
+  } else if (consentContainer) {
+    consentContainer.style.cursor = "pointer";
+    consentContainer.addEventListener("click", (e) => {
+      if (e.target === consent) return;
+      // avoid toggling when clicking links inside the container
+      if (e.target.tagName && e.target.tagName.toLowerCase() === "a") return;
+      toggleConsent();
+    });
+  }
 
   // keep visual state in sync if the real input changes (e.g. label click)
   consent.addEventListener("change", syncCheckmarkState);

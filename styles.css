@@ -125,7 +125,7 @@ input:focus {
 }
 
 .error-message {
-  color: red;
+  color: hsl(0, 66%, 54%);
   font-size: 0.875rem;
   margin: 0.25rem 0 0.5rem 0;
 }
@@ -182,3 +182,10 @@ input:focus {
 #submit:hover {
   background-color: #0056b3;
 }
+
+#submit[disabled] {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
