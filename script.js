@@ -1,11 +1,12 @@
 const form = document.getElementById("form");
 const consent = document.getElementById("consent");
+const checkmark = document.querySelector(".checkmark");
 const firstName = document.getElementById("first-name");
 const lastName = document.getElementById("last-name");
 const email = document.getElementById("email");
 const errorMessage = document.querySelectorAll(".error-message");
 const radios = document.querySelectorAll('input[name="query-type"]');
- const radioContainer = document.getElementById("query");
+const radioContainer = document.getElementById("query");
 
 // helper: find the <p class="error-message"> that belongs to an element
 const findErrorDisplay = (element) => {
@@ -45,7 +46,7 @@ const findErrorDisplay = (element) => {
     consentContainer &&
     (element === consentContainer ||
       (element.closest && element.closest("#consent-container")) ||
-      element.id === "consent")
+      element.classList.contains("checkmark"))
   ) {
     const p = consentContainer.querySelector(".error-message");
     if (p) return p;
@@ -135,11 +136,9 @@ const validateInputs = () => {
 
   if (!isRadioChecked) {
     // pass the query block so findErrorDisplay finds the right <p>
- 
     setError(radioContainer, "Please select a query type");
     isValid = false;
   } else {
-   
     setSuccess(radioContainer);
   }
 
@@ -169,5 +168,56 @@ const handleSubmit = (event) => {
     form.submit();
   }
 };
+
+// make the visual custom checkbox keyboard-accessible
+if (checkmark && consent) {
+  // ensure it's focusable and exposes checkbox semantics
+  checkmark.setAttribute("tabindex", "0");
+  checkmark.setAttribute("role", "checkbox");
+  checkmark.setAttribute("aria-checked", consent.checked ? "true" : "false");
+
+  const syncCheckmarkState = () => {
+    checkmark.setAttribute("aria-checked", consent.checked ? "true" : "false");
+    if (consent.checked) {
+      setSuccess(consent);
+    } else {
+      // clear visual success when unchecked (don't show an error here)
+      const err = findErrorDisplay(consent);
+      if (err) {
+        err.innerText = "";
+        err.style.display = "none";
+      }
+      const container = consent.parentElement ?? consent;
+      container.classList.remove("success");
+      container.classList.remove("error");
+    }
+  };
+
+  const toggleConsent = () => {
+    consent.checked = !consent.checked;
+    // notify other listeners
+    consent.dispatchEvent(new Event("change", { bubbles: true }));
+    syncCheckmarkState();
+  };
+
+  // keyboard: Enter or Space toggles the checkbox
+  checkmark.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggleConsent();
+    }
+  });
+
+  // click on the visual checkmark should also toggle
+  checkmark.addEventListener("click", (e) => {
+    toggleConsent();
+  });
+
+  // keep visual state in sync if the real input changes (e.g. label click)
+  consent.addEventListener("change", syncCheckmarkState);
+
+  // initial sync
+  syncCheckmarkState();
+}
 
 form.addEventListener("submit", handleSubmit);
