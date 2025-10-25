@@ -29,9 +29,9 @@
 
       <label for="email">Email Address <span>*</span></label>
       <input type="text" id="email" name="email" />
-      <p class="error-message">email</p>
+      <p class="error-message"></p>
 
-      <div id="query" role="group" aria-labelledby="group-label">
+      <div id="query" role="group" aria-labelledby="query-type">
         <p id="query-type">Query Type <span>*</span></p>
         <label class="radio"
           ><input type="radio" name="query-type" value="general" /> General
@@ -41,9 +41,8 @@
           ><input type="radio" name="query-type" value="support" /> Support
           Request</label
         >
-       
       </div>
- <p class="error-message"></p>
+      <p class="error-message"></p>
 
       <label for="message">Message <span>*</span></label>
       <textarea name="message" id="textarea" rows="10" cols="30"></textarea>
@@ -56,9 +55,9 @@
           being contacted by the team <span>*</span></label
         >
 
-        <p class="error-message">message</p>
+        <p class="error-message"></p>
       </div>
-      <input id="submit" type="submit" value="Submit" />
+      <input id="submit" type="submit" value="Submit"/>
     </form>
 
     <!-- lets try use react-toastify: https://github.com/fkhadra/react-toastify?tab=readme-ov-file -->

@@ -5,6 +5,7 @@ const lastName = document.getElementById("last-name");
 const email = document.getElementById("email");
 const errorMessage = document.querySelectorAll(".error-message");
 const radios = document.querySelectorAll('input[name="query-type"]');
+ const radioContainer = document.getElementById("query");
 
 // helper: find the <p class="error-message"> that belongs to an element
 const findErrorDisplay = (element) => {
@@ -134,11 +135,11 @@ const validateInputs = () => {
 
   if (!isRadioChecked) {
     // pass the query block so findErrorDisplay finds the right <p>
-    const radioContainer = document.getElementById("query");
+ 
     setError(radioContainer, "Please select a query type");
     isValid = false;
   } else {
-    const radioContainer = document.getElementById("query");
+   
     setSuccess(radioContainer);
   }
 

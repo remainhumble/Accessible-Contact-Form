@@ -34,17 +34,18 @@ h1 {
 label,
 #query-type {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 400;
   margin-bottom: 0.5rem;
   display: block;
   margin-top: 2rem;
 }
 
 .radio {
-  border: 1px solid hsl(187, 24%, 22%);
+  border: 1px solid hsl(186, 15%, 59%);
   padding: 0.5rem;
   border-radius: 4px;
   margin: 1rem 0 1rem 0;
+  cursor: pointer;
 }
 
 input[type="text"],
@@ -61,10 +62,61 @@ input[type="radio"] {
   vertical-align: middle;
 }
 
-input:focus {
-  outline: none;
+/* custom radio knob */
+label.radio input[type="radio"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1px solid hsl(186, 15%, 59%);
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  position: relative;
+  background: white;
+}
+
+/* inner dot (animated) */
+label.radio input[type="radio"]::after {
+  content: "";
+  position: absolute;
+  left: 52.25%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: hsl(169, 82%, 27%);
+  transition: transform 0.12s ease-in-out;
+}
+
+/* checked state for the knob */
+label.radio input[type="radio"]:checked::after {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* style the whole label when its radio is selected (modern browsers) */
+label.radio:has(input[type="radio"]:checked) {
+  background-color: rgba(19, 137, 101, 0.08);
   border-color: hsl(169, 82%, 27%);
-  box-shadow: 0 0 5px hsl(169, 82%, 27%);
+  color: hsl(187, 24%, 22%);
+}
+
+/* subtle focus ring for keyboard users */
+label.radio input[type="radio"]:focus {
+  box-shadow: 0 0 0 3px rgba(22, 160, 133, 0.12);
+  outline: none;
+  border: 1.5px solid hsl(169, 82%, 27%);
+}
+
+label.radio input[type="radio"]:checked {
+  outline: none;
+  border: 1.5px solid hsl(169, 82%, 27%);
+}
+
+input:focus {
+  border-color: hsl(169, 82%, 27%);
 }
 
 .error-message {
@@ -76,6 +128,7 @@ input:focus {
 #consent {
   margin-right: 0.5rem;
   vertical-align: middle;
+  cursor: pointer;
 }
 
 #submit {
