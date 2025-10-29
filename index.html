@@ -20,16 +20,31 @@
       <h1>Contact Us</h1>
 
       <label for="first-name">First Name <span>*</span></label>
-      <input type="text" name="first-name" id="first-name" />
-      <p class="error-message"></p>
+      <input
+        type="text"
+        name="first-name"
+        id="first-name"
+        aria-describedby="first-name-error"
+      />
+      <p class="error-message" id="first-name-error"></p>
 
       <label for="last-name">Last Name <span>*</span></label>
-      <input type="text" name="last-name" id="last-name" />
-      <p class="error-message"></p>
+      <input
+        type="text"
+        name="last-name"
+        id="last-name"
+        aria-describedby="last-name-error"
+      />
+      <p class="error-message" id="last-name-error"></p>
 
       <label for="email">Email Address <span>*</span></label>
-      <input type="text" id="email" name="email" />
-      <p class="error-message"></p>
+      <input
+        type="text"
+        id="email"
+        name="email"
+        aria-describedby="email-error"
+      />
+      <p class="error-message" id="email-error"></p>
 
       <div id="query" role="group" aria-labelledby="query-type">
         <p id="query-type">Query Type <span>*</span></p>
@@ -58,18 +73,25 @@
 
         <p class="error-message"></p>
       </div>
-      <input id="submit" type="submit" value="Submit" />
+      <input
+        id="submit"
+        type="submit"
+        value="Submit"
+        aria-label="Submit form"
+      />
     </form>
 
     <!-- lets try use react-toastify: https://github.com/fkhadra/react-toastify?tab=readme-ov-file -->
 
-    <!-- <div id="success-message">
-      
-      
-      
-      <p>Message Sent!</p>
+    <div id="success-message">
+      <p id="message-sent">
+        <img
+          src="/assets/images/icon-success-check.svg"
+          alt="icon-success-check"
+        />Message Sent!
+      </p>
       <br />
       <p>Thanks for completing the form. We'll be in touch soon!</p>
-    </div> -->
+    </div>
   </body>
 </html>

@@ -7,6 +7,7 @@ const email = document.getElementById("email");
 const errorMessage = document.querySelectorAll(".error-message");
 const radios = document.querySelectorAll('input[name="query-type"]');
 const radioContainer = document.getElementById("query");
+const successMessage = document.getElementById("success-message");
 
 // helper: find the <p class="error-message"> that belongs to an element
 const findErrorDisplay = (element) => {
@@ -161,28 +162,6 @@ const validateInputs = () => {
   return isValid;
 };
 
-const handleSubmit = (event) => {
-  event.preventDefault();
-  clearError();
-  // guard: ensure form exists
-  if (!form) return;
-
-  const submitButton = form.querySelector("input[type='submit']");
-
-  // disable submit to prevent double submits
-  if (submitButton) {
-    submitButton.disabled = true;
-    
-  }
-
-  if (validateInputs()) {
-    form.submit();
-  } else {
-    // re-enable if validation failed
-    if (submitButton) submitButton.disabled = false;
-  }
-};
-
 // make the visual custom checkbox keyboard-accessible
 if (checkmark && consent) {
   // ensure it's focusable and exposes checkbox semantics
@@ -237,9 +216,10 @@ if (checkmark && consent) {
     toggleConsent();
   });
 
-   // Also make the label or consent container toggle the checkbox when clicked
+  // Also make the label or consent container toggle the checkbox when clicked
   const consentLabel = document.querySelector(`label[for="${consent.id}"]`);
-  const consentContainer = document.getElementById("consent-container") || consent.parentElement;
+  const consentContainer =
+    document.getElementById("consent-container") || consent.parentElement;
   if (consentLabel) {
     consentLabel.style.cursor = "pointer";
     consentLabel.addEventListener("click", (e) => {
@@ -264,4 +244,35 @@ if (checkmark && consent) {
   syncCheckmarkState();
 }
 
+const renderSuccess = () => {
+  if (!successMessage) return;
+  // Show the success message
+  successMessage.classList.add("show");
+  // Hide the message before submitting the form
+  setTimeout(() => {
+    successMessage.classList.remove("show");
+    setTimeout(() => form.submit(), 300); // Give time for hide animation
+  }, 6000); // Show for 6s then start hiding
+};
+
+const handleSubmit = (event) => {
+  event.preventDefault();
+  clearError();
+  // guard: ensure form exists
+  if (!form) return;
+
+  const submitButton = form.querySelector("input[type='submit']");
+
+  // disable submit to prevent double submits
+  if (submitButton) {
+    submitButton.disabled = true;
+  }
+
+  if (validateInputs()) {
+    renderSuccess();
+  } else {
+    // re-enable if validation failed
+    if (submitButton) submitButton.disabled = false;
+  }
+};
 form.addEventListener("submit", handleSubmit);
