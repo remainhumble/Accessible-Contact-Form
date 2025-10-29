@@ -166,7 +166,7 @@ label.radio:focus {
 }
 
 #success-message {
-  position: absolute;
+  position: fixed;
   top: 25px;
   left: 50%;
   transform: translateX(-50%);
@@ -176,7 +176,7 @@ label.radio:focus {
   padding: 1rem 2rem;
   border-radius: 12px;
   display: none;
-  width: 80%;
+  width: 40%;
 }
 
 #success-message.show {
@@ -188,4 +188,38 @@ label.radio:focus {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+@media (min-width: 600px) {
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  #form {
+    padding: 2rem;
+    width: 900px;
+    max-width: 100%;
+    transform: scale(0.6);
+  }
+
+  #name,
+  #radio-group {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  #fname,
+  #lname,
+  .radio {
+    flex: 1;
+  }
+
+  #success-message {
+width: 40%;
+padding: 20px 17px;
+  }
 }
